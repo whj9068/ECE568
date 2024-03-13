@@ -1,0 +1,35 @@
+#Siyu Shao, 1007147204, jasmine.shao@mail.utoronto.ca
+#Haijing Wang, 1006810024, haijing.wang@mail.utoronto.ca
+
+part1:
+    generateQRcode:
+    we used urlencode() function directly encoded issuer and account name. In order to encode secret_hex
+    into base32 we need to covert input hex string into uint_8 data type. We first covert hex input string 
+    into its integer values so it can be futhur convert to uint_8 binary data. Each hex value is 4 bit, so 
+    2 hexes from the input hex string will be covert to 1 byte in uint_8 data type. so 20 characters will 
+    be converted to size 10 in uint_8 type. Converted uint_8 data then can be passed into base32_encode().
+    Each character in Base_32 encoding represents 5 bits of the original data, so the base_32 encoded result
+    will be size of 80/5=16. Then put 3 encoded parameters into the url to display the QRcode.
+
+    validateQRcode:
+    Since HMAC conversion takes into uint_8, we need to first change secret_hex from hex to binary. Following 
+    format of HMAC = H[(K XOR opad) + H((K XOR ipad) + M)], we create opad and ipad with 64 bytes 0x36 and 0x5c.
+    perform the calculation and use sha1 to get HMAC. Time is inputed as M in this case. It also need to be converted
+    into a form that sha1_update can process. Lastly, after the HMAC calculations, we need to truncate and format the 
+    final sha1 to get the int TOTP value, involving Dynamic Truncation & convert to decimal & modulo operation. 
+    Then conversion is needed to convert in to char and compare with the user inputed TOTP value using strcmp.
+
+part2: Biometric Multi-Factor Authentication
+    getAuthenticatorStatus - using the provided url format also hostname and userId, authenticatorId from
+    previous calls. We used GET call and fetching status, face_status, voice_status, fingerprint_status,
+	eye_status from the return JSON structor. If statement to ensure only when the status is active and
+    at least 1 of the statuses is enrolloed, function will return active.
+
+    sendStepup - using the provided url format with hostname, and user_uuid, transaction_id, message datas,
+    we made a post call to send request to server. We used user_verification variable to hold the 
+    user_verification{} from the JSON reply and then use self.verificationId to hold the uuid in the
+    user_verification{}, so this can be used in getStepupStatus function call.
+
+    getStepupStatus - using the provided url format also hostname and self.verificationId from previous 
+    sendStepup function call. We used GET call and fetching user_verification{} from the JSON reply and 
+    then fetch the StepupStatus from theuser_verification{}

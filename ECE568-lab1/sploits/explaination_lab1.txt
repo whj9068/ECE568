@@ -1,0 +1,47 @@
+#Siyu Shao, 1007147204, jasmine.shao@mail.utoronto.ca
+#Haijing Wang, 1006810024, haijing.wang@mail.utoronto.ca
+
+Sploit1:
+target1 has vulnerability of buffer overflow. To exploit we need to overwrite rip with the address 
+of buf. We first found the address of the buf and also rip using gdb info frame. By determine the 
+distance between them and the length of the shellcode(45), we create the attack buffer accordingly using 
+format of NOP+shellcode+RA(4 bytes)+'\0', which length of NOP+shellcode = 120 bytes 
+(distance from &buf=0x3021fe50 to &rip=0x3021fec8).
+
+Sploit2:
+target2 also has the vulnerability of buffer overflow. To exploit it, we need to overwrite rip with the address of buf.
+We first found the address of the buf, I, len, and rip using the gdb. We create the attack buffer 
+accordingly using the format of 285=NOP+shellcode+len+i+NOP+RA+\0. Since the forloop can loop only 272 times, 
+we need to change len and keep counting up normally to ensure the loop runs 284 (not counting \0) times. Thus, i would 
+be buf[256]+8+len(4)=268, and len should increase to 284. We need to use env because there are \x00 in len and i.
+
+Sploit3:
+target3 also has vulnerability of buffer overflow. To exploit we need to overwrite rip with the address 
+of buf+4 which is becuase we start writing after "AAAA". We first found the address of the buf and also 
+rip using gdb info frame. By determine the distance between them and the length of the shellcode(45), we 
+create the attack buffer accordingly using format of NOP+shellcode+RA(4 bytes)+'\0', which length of 
+NOP+shellcode = 68 bytes (distance from (&rip = 0x3021fe98 to (&buf = 0x3021fe50 + 0x4 "AAAA") = 0x3021fe54))
+
+Sploit4:
+target4 also has the vulnerability of buffer overflow. We first found the address of the buf, i, len, and rip using gdb.
+We create the attack buffer accordingly using the format of 189=NOP+shellcode+i+len+NOP+RA+\0. Different from sploit2, 
+for loop updates i first rather than len. So we could keep len constant as before at 169 and decrease i to make sure for 
+loop runs for 188 (not counting \0). In this case, i decrease to 169- (188-169)=150. We also need to use env because 
+there are \x00 in len and i.
+
+
+Sploit5:
+target5 has a format string vulnerability. We first found the address of format string, buff and rip using gdb. We create an
+attack buffer accordingly using the format of ra+dummy+(ra+2)+dummy+(ra+3)+dummy+(ra+4)+NOP+%x%hhn%x%hhn%x%hhn%x%hhn+NOP+
+Shellcode+NOP. %x is calculated to point exactly in the front of my shellcode, which I put 120d above address of buffer. 
+The format string will start at 60 because the first 60 characters is skipped when feeding into sprintf. %hhn will overwrite 
+the return address to address of shellcode one byte at a time. env is used because there are \x00 in ra, ra+2, ra+3, ra+4.
+
+Sploit6:
+This is a double free scenario. Total of 2 fake tags inserted. 
+First one is right at where p points to, we "rewrite" the original p tag with left->"\xeb\x06\x90\x90", 
+right->"\x91\x90\x90\x90". We made lowerst bit of right to '0x1' for free bit check in tfree(). With 
+this 8 byte fake tag, we need to skip them to run following shellcode correctly from buff[8], we used 
+"\xeb\x06" a short jump instruction in x86 assembly language to skip the following 6 bytes.
+Second one is right before where q pointed to. left is the address of where p pointed to. right is the 
+address of rip.
