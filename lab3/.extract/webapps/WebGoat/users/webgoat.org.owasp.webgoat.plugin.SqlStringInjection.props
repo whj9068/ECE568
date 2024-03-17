@@ -1,11 +1,11 @@
 #webgoat
-#Fri Mar 15 14:19:24 EDT 2024
+#Sun Mar 17 16:37:51 EDT 2024
 String\ SQL\ Injection.currentStage=2
 String\ SQL\ Injection.maxHintLevel=0
 String\ SQL\ Injection.viewedParameters=false
 String\ SQL\ Injection.viewedSource=false
 String\ SQL\ Injection.viewedHtml=false
-String\ SQL\ Injection.numVisits=20
+String\ SQL\ Injection.numVisits=26
 String\ SQL\ Injection.viewedCookies=false
 String\ SQL\ Injection.viewedLessonPlan=false
 String\ SQL\ Injection.completed=true

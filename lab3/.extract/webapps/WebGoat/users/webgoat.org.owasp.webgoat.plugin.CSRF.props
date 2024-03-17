@@ -1,8 +1,8 @@
 #webgoat
-#Fri Mar 15 13:27:39 EDT 2024
+#Sun Mar 17 16:24:54 EDT 2024
 Cross\ Site\ Request\ Forgery\ (CSRF).viewedSource=false
 Cross\ Site\ Request\ Forgery\ (CSRF).viewedParameters=false
-Cross\ Site\ Request\ Forgery\ (CSRF).numVisits=36
+Cross\ Site\ Request\ Forgery\ (CSRF).numVisits=45
 Cross\ Site\ Request\ Forgery\ (CSRF).viewedCookies=false
 Cross\ Site\ Request\ Forgery\ (CSRF).viewedLessonPlan=false
 Cross\ Site\ Request\ Forgery\ (CSRF).completed=true

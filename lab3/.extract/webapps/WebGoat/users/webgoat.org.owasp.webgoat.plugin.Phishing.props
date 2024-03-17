@@ -1,10 +1,13 @@
 #webgoat
-#Sun Mar 17 00:00:24 EDT 2024
-Phishing\ with\ XSS.completed=true
-Phishing\ with\ XSS.viewedCookies=false
-Phishing\ with\ XSS.viewedHtml=false
-Phishing\ with\ XSS.viewedParameters=false
-Phishing\ with\ XSS.maxHintLevel=0
-Phishing\ with\ XSS.numVisits=12
-Phishing\ with\ XSS.viewedSource=false
+#Sun Mar 17 16:23:49 EDT 2024
+phishingUsername=webgoat
 Phishing\ with\ XSS.viewedLessonPlan=false
+Phishing\ with\ XSS.completed=true
+Phishing\ with\ XSS.maxHintLevel=0
+Phishing\ with\ XSS.numVisits=16
+phishingPassword=webgoat
+Phishing\ with\ XSS.viewedParameters=false
+Phishing\ with\ XSS.viewedSource=false
+Phishing\ with\ XSS.viewedHtml=false
+Phishing\ with\ XSS.viewedCookies=false
+PROPERTY=yes
