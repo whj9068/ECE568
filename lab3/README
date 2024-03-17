@@ -1,0 +1,18 @@
+#Siyu Shao, 1007147204, jasmine.shao@mail.utoronto.ca
+#Haijing Wang, 1006810024, haijing.wang@mail.utoronto.ca
+
+part1:
+    We exploited XSS by injecting HTML code into the search bar to create a fake login form. The credentials submitted through the form will be send to the hacker's server after clicking the login button.
+
+part3: 
+    We inject a malicious img element into the message content. To exploit this vulnerability, we set 
+    up a "transfer" field in the url. When the img element is loaded, it transfers the recipient's money for the amount specified in the Transfer field.
+
+part5:
+    We injected two iframes with the malicious src attribute and one javascript. The src of the first iframe starts the transfer with the defined amount. The script then sets the src of iframe2, which passes the token value through the onload function. After the script sets the src of iframe2, it reloads and completes the attack to transmit the values specified in the src. The onload event on iframe1 allows the parent page's JavaScript to access iframe1's content, which enables an attacker to extract the token value from iframe1's form and construct the request in iframe2 with the appropriate token, bypassing the same-origin policy restriction.
+
+part7:
+    stage1 - The injected SQL statement consists a userid for the intended query and a malicious UPDATE query injected, with ';' to separate two parts. Since the input box is not sterilized, the UPDATE query after ';' will also be executed. When executed, this statement sets the employee's salary to 999.
+
+    stage2 - Similar to stage 1, but after ';', a TRIGGER that sets the email for all new users to ece568_22s@utoronto.ca will be inserted and executed.
+    
