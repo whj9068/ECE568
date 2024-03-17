@@ -1,12 +1,12 @@
-#webgoat
-#Sun Mar 17 00:39:50 EDT 2024
+#guest
+#Fri Mar 15 20:34:20 EDT 2024
 Reflected\ XSS\ Attacks.viewedLessonPlan=false
 Reflected\ XSS\ Attacks.viewedCookies=false
 Reflected\ XSS\ Attacks.viewedSource=false
-stolenCardNum=4128 3214 0002 1999
-Reflected\ XSS\ Attacks.numVisits=240
-Reflected\ XSS\ Attacks.completed=true
+stolenCardNum=
+Reflected\ XSS\ Attacks.numVisits=25
+Reflected\ XSS\ Attacks.completed=false
 Reflected\ XSS\ Attacks.viewedParameters=false
 Reflected\ XSS\ Attacks.viewedHtml=false
 Reflected\ XSS\ Attacks.maxHintLevel=0
-PROPERTY=yes
+PROPERTY=
